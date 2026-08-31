@@ -1,13 +1,13 @@
 {
-  "name": "ck",
-  "version": "4.1.0",
-  "description": "Cavekit — compressed spec-driven dev. Full loop (grill → spec → research → review → build) over one SPEC.md file: three core commands + four reach-for. Caveman encoding. Bug-to-spec backprop.",
-  "author": { "name": "Julius Brussee" },
+  "name": "sk",
+  "version": "4.2.0",
+  "description": "Smortkit — compressed spec-driven dev. Full loop (grill → spec → research → review → build) over one SPEC.md file: three core commands + four reach-for. Caveman encoding. Bug-to-spec backprop.",
+  "author": { "name": "Markus Nölle" },
   "license": "MIT",
   "keywords": [
     "spec-driven",
     "caveman",
-    "cavekit",
+    "smortkit",
     "backprop",
     "sdd",
     "adversarial-review",

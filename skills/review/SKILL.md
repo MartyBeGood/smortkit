@@ -8,7 +8,7 @@ description: |
   Survivors harden §V; the run ends in an explicit go / no-go gate. Triggers
   before building anything high-blast-radius, when the user says "review the
   spec", "red-team this", "is this plan sound", "senior review", or invokes
-  /ck:review.
+  /sk:review.
 ---
 
 # review — refute the spec before build
@@ -60,7 +60,7 @@ Each finding: `evidence → claim → severity`.
 - **HARDEN** — add/sharpen a §V so the build cannot regress it.
 - **NOTE** — worth knowing, not blocking.
 
-No evidence? Down-rank to NOTE & tag `[unverified]`. ⊥ inflate a hunch to BLOCK.
+No evidence? Down-rank to NOTE & tag `[unverified]`. Never inflate a hunch to BLOCK.
 
 ## PHASE 4 — HARDEN §V & GATE
 
@@ -69,7 +69,7 @@ No evidence? Down-rank to NOTE & tag `[unverified]`. ⊥ inflate a hunch to BLOC
 
 ```
 ## review verdict
-BLOCK: 1 — §I.api shape ≠ caller src/client.ts:40. fix §I before build.
+BLOCK: 1 — §I.api shape doesn't match caller src/client.ts:40. fix §I before build.
 HARDEN: 2 — drafted V8 (idempotent refund), V9 (tx around dual write).
 NOTE: 1 — §T4 vague, split before /build.
 gate: NO-GO until BLOCK cleared. then /build §T after spec writes V8,V9.
@@ -79,7 +79,7 @@ GO or NO-GO, never a shrug. Review is the checkpoint that stops a confident wron
 
 ## BOUNDARIES
 
-- ⊥ write SPEC.md. Draft §V & hand to spec.
-- ⊥ pass a finding with no evidence as fact. Flag `[unverified]`.
-- ⊥ review trivia. Right-size or skip.
-- ⊥ rewrite the user's intent. You harden the spec, you do not replace its goal.
+- Never write SPEC.md. Draft §V & hand to spec.
+- Never pass a finding with no evidence as fact. Flag `[unverified]`.
+- Never review trivia. Right-size or skip.
+- Never rewrite the user's intent. You harden the spec, you do not replace its goal.

@@ -45,7 +45,7 @@ Template:
 Example:
 ```
 §B row: B3|2026-04-20|refund job ran twice on retry|V7
-§V line: V7: ∀ refund → idempotency key check before charge reversal
+§V line: V7: every refund → idempotency key check before charge reversal
 ```
 
 ### 4. GENERATE TEST
@@ -63,11 +63,11 @@ Commit msg: `backprop §B.<n> + §V.<N>: <one-line cause>`.
 
 - Testable in code (grep-able or assert-able).
 - Scoped to a behavior, not a file.
-- Stated positively when possible (`! hold` over `⊥ forbid`).
+- Stated positively when possible (`must hold` over `never forbid`).
 - References §I surface where it applies.
 
 **Bad**: V8: code should be correct.
-**Good**: V8: ∀ pg_query ! params interpolated via driver, ⊥ string concat.
+**Good**: V8: every pg_query must interpolate params via driver, never string concat.
 
 ## WHEN NOT TO ADD §V
 

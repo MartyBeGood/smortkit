@@ -1,6 +1,6 @@
 # SPEC.md FORMAT
 
-Single file. Project root. Every cavekit command reads it.
+Single file. Project root. Every smortkit command reads it.
 
 ## SECTIONS
 
@@ -26,16 +26,16 @@ external surface. what world sees.
 
 ## §R RESEARCH
 optional. external-knowledge log. pipe table. present only if `/research` ran.
-durable ∴ build never re-derives & never hallucinates lib facts.
+durable, so build never re-derives & never hallucinates lib facts.
 id|topic|finding|src
 R1|jwt lib|`jose` > `jsonwebtoken` — maintained, ESM, 0 deps|github.com/panva/jose
 R2|rate limit|token bucket ok @ our scale|<url>
 
 ## §V INVARIANTS
-numbered. testable. each ! MUST hold.
-V1: ∀ req → auth check before handler
-V2: token expiry ≤ ⊥ allowed
-V3: DB write ! in transaction
+numbered. testable. each one must hold.
+V1: every req → auth check before handler
+V2: token expiry no later than now → reject
+V3: DB write must run in transaction
 
 ## §T TASKS
 pipe table. ids monotonic (never reused). status: `x` done / `~` wip / `.` todo.
@@ -47,7 +47,7 @@ T3|x|add §V.1 middleware|V1,I.api
 ## §B BUGS
 pipe table. backprop log. each row = bug + invariant that catches recurrence.
 id|date|cause|fix
-B1|2026-04-20|token `<` not `≤`|V2
+B1|2026-04-20|token `<` not `<=`|V2
 B2|2026-04-21|race on write|V3
 ```
 
@@ -69,32 +69,13 @@ Default for every section. Rules:
 
 **Preserve verbatim**: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 
-**Symbols** (save tokens, machine-readable):
-
-```
-→   leads to / becomes / triggers
-∴   therefore / fix
-∀   for all / every
-∃   exists / some
-!   must
-?   may / optional
-⊥   never / impossible / forbidden
-≠   not equal / differs from
-∈   in / member of
-∉   not in
-≤   at most
-≥   at least
-&   and
-|   or
-```
-
 **Bad** (v1 prose):
 
 > The authentication middleware must verify the token expiry on every request before allowing the handler to execute.
 
 **Good** (v2 caveman):
 
-> V1: ∀ req → auth check before handler
+> V1: every req → auth check before handler
 
 **Bad** (prose bug note):
 
@@ -102,12 +83,12 @@ Default for every section. Rules:
 
 **Good** (v2 caveman):
 
-> B1: token `<` not `<=` ∴ tokens rejected @ expiry. §V.2 now ! `≤`.
+> B1: token `<` not `<=`, so tokens rejected @ expiry. §V.2 now must use `<=`.
 
 ## WHY CAVEMAN FOR SPECS
 
 Spec loaded every invocation. 75% fewer tokens = 75% fewer dollars & faster reads.
-Human skims fast too. Symbols unambiguous.
+Human skims fast too — no symbol legend to hold in your head.
 
 ## ONE FILE RULE
 
@@ -141,7 +122,7 @@ oldest §B rows when SPEC.md > 500 lines, per ONE FILE RULE) is the one sanction
 Ceremony scales to blast radius, never to ego. One-line fix → just `/build`.
 New feature in a shared module → `/grill` then `/review` first. The full
 grill→spec→research→review→build chain is for genuinely uncertain or
-high-blast-radius work, ⊥ for a typo. Skip any verb that would cost more
+high-blast-radius work, never for a typo. Skip any verb that would cost more
 attention than the change is worth.
 
 That is whole format.

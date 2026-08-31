@@ -61,8 +61,8 @@ Caveman. Grouped by severity.
 
 ```
 ## §V drift
-V2 VIOLATE: auth/mw.go:47 uses `<` not `≤`. see §B.1.
-V5 UNVERIFIABLE: no test covers ∀ req path.
+V2 VIOLATE: auth/mw.go:47 uses `<` not `<=`. see §B.1.
+V5 UNVERIFIABLE: no test covers every req path.
 
 ## §I drift
 I.api DRIFT: POST /x returns `{result}` not `{id}`. route.go:112.

@@ -7,7 +7,7 @@ description: |
   behavior held constant, tests green before and after. Proposes §I/§V/§T edits,
   never silent rewrites. Triggers when the user says "deepen this", "improve the
   design", "this module feels shallow", "pull complexity down", "use spare
-  budget on the codebase", or invokes /ck:deepen. Leans on the codebase-design
+  budget on the codebase", or invokes /sk:deepen. Leans on the codebase-design
   skill's deep-module vocabulary when present.
 ---
 
@@ -28,7 +28,7 @@ budget to drain — not under deadline.
 - The same change keeps touching many files (change amplification).
 - User explicitly asks to improve design quality.
 
-⊥ run mid-feature or under pressure. Deepen is the deliberate pass, not the reflex.
+Never run mid-feature or under pressure. Deepen is the deliberate pass, not the reflex.
 
 ## FIVE STEPS
 
@@ -40,7 +40,7 @@ work done. Pick the **one** worst offender. Tells:
 - Same abstraction repeated at two layers (no information hiding).
 - A `?` or §B that traces back to a confusing interface.
 
-One module per pass. Deepening is surgical, ⊥ a codebase sweep.
+One module per pass. Deepening is surgical, never a codebase sweep.
 
 ### 2. DIAGNOSE
 Name the design defect in caveman, citing file:line:
@@ -65,7 +65,7 @@ Draft the change as spec edits, not a silent rewrite:
 Hand to **spec** to write. Show the before/after interface so the user sees the shrink.
 
 ### 5. VERIFY BEHAVIOR HELD
-Refactor ≠ rewrite. Full suite green before you start AND after. A deepening that
+Refactor is not rewrite. Full suite green before you start AND after. A deepening that
 changes behavior is a feature in disguise — stop, route through `/spec` + `/build`.
 New interface gets a test proving the old callers still work.
 
@@ -77,8 +77,8 @@ deepened beats five churned. Budget left → pick the next shallowest, fresh pas
 
 ## BOUNDARIES
 
-- ⊥ change behavior. Green before, green after. Pure structure.
-- ⊥ write SPEC.md. Propose §I/§V/§T; spec writes.
-- ⊥ deepen more than one module per pass.
-- ⊥ run under deadline or mid-feature. This is the spare-budget pass.
-- ⊥ add abstraction for single-use code. A deep module earns its hiding; a speculative one is just more surface.
+- Never change behavior. Green before, green after. Pure structure.
+- Never write SPEC.md. Propose §I/§V/§T; spec writes.
+- Never deepen more than one module per pass.
+- Never run under deadline or mid-feature. This is the spare-budget pass.
+- Never add abstraction for single-use code. A deep module earns its hiding; a speculative one is just more surface.

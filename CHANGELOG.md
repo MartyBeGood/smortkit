@@ -1,5 +1,34 @@
 # CHANGELOG
 
+## v4.2.0 — smortkit fork
+
+Fork of `cavekit` under new ownership. Rebrand only where it's ownership
+(plugin/marketplace identity, license, contact info) — `SPEC.md` files and
+installed skills from the parent project keep working unchanged.
+
+### changed
+
+- project renamed `cavekit` → `smortkit`; plugin/command prefix `ck` → `sk`
+  (`/sk:spec`, `/sk:build`, `/sk:check`, `/sk:grill`, `/sk:research`,
+  `/sk:review`, `/sk:deepen`); marketplace renamed to `smortkit`.
+- `build` enforces a red→green→refactor TDD loop whenever the target
+  project has a detectable test setup (test runner config, test dir, or
+  framework files) — write the named test from the verification contract
+  first, confirm it fails for the right reason, then implement to green.
+  Falls back to today's plain verification-command check when no test
+  framework is detected.
+- `FORMAT.md`'s caveman-encoding section and the `caveman` skill no longer
+  carry a symbols lookup table — the symbol set is used inline in examples
+  but isn't spelled out as a separate reference table.
+
+### removed
+
+- `SECURITY.md`, `LAUNCH-POST.md`, `UPGRADE.md` — tied to the parent
+  project's contact info, personal launch narrative, and v3.1.0 migration
+  path, none of which apply to this fork.
+- README's "older cavekit (Hunt lifecycle, v3.1.0)" section and the
+  ecosystem table pointing at the parent author's other repos.
+
 ## v4.1.0 — the full loop
 
 Additive. Backward compatible with v4.0.0 — the three-command core is
@@ -12,13 +41,13 @@ a hunch.
 The core loop stays `spec → build → check`. Four new verbs join it, each
 opt-in and right-sized — you reach for them only when the change earns it:
 
-- **`/ck:grill`** — calibrated interrogation of a fuzzy idea into a sharp
+- **`/sk:grill`** — calibrated interrogation of a fuzzy idea into a sharp
   `§G`/`§C`, one question at a time, before a spec exists.
-- **`/ck:research`** — external knowledge into the new `§R` log; every
+- **`/sk:research`** — external knowledge into the new `§R` log; every
   finding cites a source, unverified ones flagged, never written as fact.
-- **`/ck:review`** — adversarial senior review of the spec *before* build:
+- **`/sk:review`** — adversarial senior review of the spec *before* build:
   refutes rather than rubber-stamps, hardens `§V`, ends in a go/no-go gate.
-- **`/ck:deepen`** — spare-budget design pass. Picks the one shallowest
+- **`/sk:deepen`** — spare-budget design pass. Picks the one shallowest
   module, proposes a deeper shape, holds behavior constant (tests green
   before and after).
 
@@ -41,7 +70,7 @@ opt-in and right-sized — you reach for them only when the change earns it:
 
 | pain point (source) | change |
 |---|---|
-| Token / context tax — spec-kit loads ~18.6k tokens every session (spec-kit #1401); BMAD burns 80–100k/step (#1188) | caveman descriptions keep cavekit's whole nine-skill set at ~1.1k context — 16× lighter |
+| Token / context tax — spec-kit loads ~18.6k tokens every session (spec-kit #1401); BMAD burns 80–100k/step (#1188) | caveman descriptions keep smortkit's whole nine-skill set at ~1.1k context — 16× lighter |
 | Specs drift silently with no detector (OpenSpec #1212; spec-kit #1686) | `check` reframed as the drift detector, run every build |
 | Ceremony overkill — 10–15× overhead, "sledgehammer for a nut" (BMAD #2003; HN 45610996) | **right-size** rule; core stays 3 commands; verbs are opt-in |
 | Agents ignore the spec / mark done without doing (spec-kit #230; BMAD #446) | `build` verification contract names which test proves each `§V` |
@@ -73,7 +102,7 @@ Full rewrite. Not backward compatible with v3.x. Different shape, same name.
 Kept only what earned its tokens:
 
 - `SPEC.md` — durable, addressable, caveman-encoded
-- three commands — `/ck:spec`, `/ck:build`, `/ck:check`
+- three commands — `/sk:spec`, `/sk:build`, `/sk:check`
 - two skills — `caveman` encoding, `backprop` protocol
 
 ### added
@@ -81,10 +110,10 @@ Kept only what earned its tokens:
 - single `SPEC.md` format with six addressable sections (§G §C §I §V §T §B)
 - pipe-table encoding for §T (tasks) and §B (bugs)
 - caveman symbol set (→ ∴ ∀ ∃ ! ? ⊥ ≠ ∈ ∉ ≤ ≥ & |) as default for spec writes
-- bug → §B → §V backprop reflex wired into `/ck:build` failure path
-- `/ck:spec from-code` — distill spec from existing codebase
-- `/ck:check` — read-only drift report (replaces five v3 review flavors)
-- `npx skills add JuliusBrussee/cavekit` one-line install path (commands + skills)
+- bug → §B → §V backprop reflex wired into `/sk:build` failure path
+- `/sk:spec from-code` — distill spec from existing codebase
+- `/sk:check` — read-only drift report (replaces five v3 review flavors)
+- `npx skills add MartyBeGood/smortkit` one-line install path (commands + skills)
 
 ### removed (relative to v3.1.0)
 
@@ -110,10 +139,9 @@ Kept only what earned its tokens:
 
 ### migration
 
-See [`UPGRADE.md`](./UPGRADE.md). No automated migrator — the v3 kit
-shape does not map cleanly to v4's single file. Recommended path: run
-`/ck:spec from-code` on your existing v3 project to distill a v4 spec
-from your built code.
+No automated migrator — the v3 kit shape does not map cleanly to v4's
+single file. Recommended path: run `/sk:spec from-code` on your existing
+v3 project to distill a v4 spec from your built code.
 
 ### v3 reachability
 

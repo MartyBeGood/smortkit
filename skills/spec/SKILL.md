@@ -35,7 +35,7 @@ into the right section, show a diff, write on OK:
 - **review** → drafted §V lines + the risk verdict
 - **deepen** → §I/§V/§T amendments
 
-⊥ rewrite a section the handoff did not name. Sectioned ownership (see FORMAT.md).
+Never rewrite a section the handoff did not name. Sectioned ownership (see FORMAT.md).
 
 ## NEW — idea → spec
 
@@ -86,7 +86,7 @@ Never silently rewrite sections user did not name.
 - Caveman format per `FORMAT.md`.
 - Preserve identifiers, paths, code verbatim.
 - Numbering monotonic — never reuse §V.N or §B.N.
-- §T row `cites` column ! list §V/§I deps: `T5|.|impl auth mw|V2,I.api`.
+- §T row `cites` column must list §V/§I deps: `T5|.|impl auth mw|V2,I.api`.
 
 ## NON-GOALS
 

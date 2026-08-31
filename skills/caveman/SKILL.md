@@ -21,28 +21,6 @@ Does NOT apply to code, error strings, commit messages, PR descriptions.
 - Fragments fine.
 - Short synonyms: fix > implement, big > extensive, run > execute.
 
-## SYMBOLS
-
-Prefer over words:
-
-```
-→   leads to / becomes / on <x>
-∴   therefore / fix
-∀   for all / every
-∃   exists / some
-!   must / required
-?   may / optional / unknown
-⊥   never / forbidden / nil
-≠   not equal
-∈   in
-∉   not in
-≤   at most
-≥   at least
-&   and
-|   or
-§   section reference
-```
-
 ## PRESERVE VERBATIM
 
 Never compress:
@@ -61,14 +39,14 @@ Never compress:
 **Invariant**:
 ```
 V<n>: <subject> <relation> <condition>
-V1: ∀ req → auth check before handler
-V2: token expiry ≤ current_time → reject
+V1: every req → auth check before handler
+V2: token expiry no later than current_time → reject
 ```
 
 **Bug row** (pipe table under §B):
 ```
 id|date|cause|fix
-B1|2026-04-20|token `<` not `≤`|V2
+B1|2026-04-20|token `<` not `<=`|V2
 ```
 
 **Task row** (pipe table under §T):
@@ -83,7 +61,7 @@ Status: `x` done, `~` wip, `.` todo. Escape literal `|` as `\|`.
 <kind>: <name> → <shape>
 api: POST /x → 200 {id:string}
 cmd: `foo bar <arg>` → stdout JSON
-env: FOO_KEY ! set
+env: FOO_KEY must be set
 ```
 
 ## EXAMPLES
@@ -92,13 +70,13 @@ env: FOO_KEY ! set
 > The system should ensure that every incoming request is properly authenticated before being forwarded to its corresponding handler function.
 
 **Good**:
-> V1: ∀ req → auth check before handler
+> V1: every req → auth check before handler
 
 **Bad**:
 > We discovered that the token expiration check in the middleware was using a strict less-than comparison operator, which meant tokens were being rejected at the exact moment of their expiry.
 
 **Good**:
-> B1: token `<` not `≤` → reject @ expiry boundary.
+> B1: token `<` not `<=` → reject @ expiry boundary.
 
 **Bad**:
 > The POST endpoint at /x accepts a JSON body and returns a 200 response with an object containing the created id.

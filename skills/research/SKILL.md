@@ -6,7 +6,7 @@ description: |
   behavior. Each finding cites a source; unsourced claims are flagged, never
   written as fact. Triggers when a spec decision hinges on a library/API/best
   practice the agent is unsure of, when the user says "research this", "what's
-  the best lib for…", "check current best practice", or invokes /ck:research.
+  the best lib for…", "check current best practice", or invokes /sk:research.
   Defers the §R write to the spec skill.
 ---
 
@@ -25,7 +25,7 @@ Research is the external oracle: pull the real fact once, log it caveman, never 
 - The idea touches a domain with real prior art (auth, payments, crypto, rate-limit).
 - `/grill` parked a `?` that the outside world must answer.
 
-Skip when the build touches only code you already wrote. Research scales to the unknown, ⊥ to habit.
+Skip when the build touches only code you already wrote. Research scales to the unknown, never to habit.
 
 ## FOUR STEPS
 
@@ -56,17 +56,17 @@ spec writes.
 - Cite a URL, repo, RFC, or paper per row. Verbatim identifiers/versions.
 - Could not verify → write the row but flag `?` in the finding & say so. An
   unverified claim labeled honestly is fine; one disguised as fact is a future §B.
-- Conflicting sources → log both, let the user pick. ⊥ silently average them.
+- Conflicting sources → log both, let the user pick. Never silently average them.
 
 ## WHEN TO STOP
 
 Done when every scoped question has a sourced §R row (or an honest `?`), and no
-build decision still rests on an unchecked assumption. ⊥ research past the
+build decision still rests on an unchecked assumption. Never research past the
 questions you scoped — that is just burning the attention budget.
 
 ## BOUNDARIES
 
-- ⊥ write SPEC.md. Hand §R rows to spec.
-- ⊥ write a finding as fact without a source.
-- ⊥ dump raw pages into context or §R. Distill or it does not land.
-- ⊥ research what you can read in the repo. Local truth > web guess.
+- Never write SPEC.md. Hand §R rows to spec.
+- Never write a finding as fact without a source.
+- Never dump raw pages into context or §R. Distill or it does not land.
+- Never research what you can read in the repo. Local truth > web guess.

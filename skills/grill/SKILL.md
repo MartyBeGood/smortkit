@@ -6,7 +6,7 @@ description: |
   or §C (constraints) — unknowns parked as `?` items, never guessed. The
   cheapest place to kill a bad idea is before §T exists. Triggers when the user
   has a vague idea, says "grill me", "stress-test this", "challenge my plan",
-  "interview me before I spec", or invokes /ck:grill. Defers the actual write to
+  "interview me before I spec", or invokes /sk:grill. Defers the actual write to
   the spec skill.
 ---
 
@@ -25,7 +25,7 @@ A bad assumption caught here costs one question. Caught in §B it costs a bug.
 - Before `/spec new` on anything non-trivial.
 - User asks to be challenged / stress-tested.
 
-Skip for a typo or a one-line fix. Grill scales to uncertainty, ⊥ to ego.
+Skip for a typo or a one-line fix. Grill scales to uncertainty, never to ego.
 
 ## CALIBRATE FIRST
 
@@ -76,7 +76,7 @@ Unresolved blocking unknown that needs the outside world → recommend `/researc
 
 ## BOUNDARIES
 
-- ⊥ make product decisions for the user. Recommend, never decide.
-- ⊥ write SPEC.md. Hand structured answers to spec.
-- ⊥ ask in bulk. One question, one recommendation, wait.
-- ⊥ grill a trivial change. Right-size or skip.
+- Never make product decisions for the user. Recommend, never decide.
+- Never write SPEC.md. Hand structured answers to spec.
+- Never ask in bulk. One question, one recommendation, wait.
+- Never grill a trivial change. Right-size or skip.
