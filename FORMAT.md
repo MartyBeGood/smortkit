@@ -2,6 +2,18 @@
 
 Single file. Project root. Every smortkit command reads it.
 
+**ROOT**: `SPEC.md` lives in the *target project* root = cwd, else nearest
+parent dir with `.git`. Check that one place only — never glob/find/search
+wider, that's how these tools end up scanning Desktop/Documents/unrelated dirs
+and tripping OS file-access prompts. Not found there → treat as missing, don't
+keep looking.
+
+This file (`FORMAT.md`) ships inside the smortkit plugin itself, not the
+target project — its location depends on where the plugin is installed
+(user-wide or project-wide). Every `SKILL.md` that needs it resolves the path
+relative to its own file (`../../FORMAT.md` from `skills/<name>/SKILL.md`),
+never by searching for it.
+
 ## SECTIONS
 
 Fixed order, fixed headers, addressable. A section may be absent (skip it —

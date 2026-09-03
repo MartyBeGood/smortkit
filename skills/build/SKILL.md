@@ -20,8 +20,11 @@ Single-thread native plan→execute. You are main Claude. No swarm.
 
 ## LOAD
 
-1. Read `SPEC.md`. If missing → tell user to invoke the spec skill first. Stop.
-2. Read `FORMAT.md` once if not loaded.
+1. Read `SPEC.md` from project root only (cwd, else nearest parent `.git`) —
+   never search wider. Missing there → tell user to invoke the spec skill
+   first. Stop.
+2. Read `FORMAT.md` once if not loaded — path `../../FORMAT.md` relative to
+   this file (plugin root, not the project).
 3. Read §R if present — external facts the build must honor, never re-derive or contradict.
 4. Parse invocation args:
    - `§T.n` → that task only

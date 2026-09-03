@@ -13,13 +13,16 @@ description: |
 
 # spec — spec mutator
 
-Read `FORMAT.md` at repo root if not already loaded. Caveman skill applies to all writes here.
+Read `FORMAT.md` once if not already loaded — path `../../FORMAT.md` relative
+to this file (plugin root, not the project). Caveman skill applies to all
+writes here.
 
 ## DISPATCH
 
-Inspect user request and project state:
+Inspect user request and project state. "SPEC.md" below always means at
+project root only — check that one place, don't search elsewhere:
 
-1. No `SPEC.md` at repo root AND args describe idea → **NEW**
+1. No `SPEC.md` AND args describe idea → **NEW**
 2. No `SPEC.md` AND `from-code` in args → **DISTILL**
 3. `SPEC.md` exists AND args start `bug:` → **BACKPROP**
 4. `SPEC.md` exists AND args start `amend` → **AMEND**

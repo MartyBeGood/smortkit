@@ -19,7 +19,8 @@ a diff; drift caught in prod is a §B.
 
 ## LOAD
 
-1. Read `SPEC.md`. If missing → "no spec, nothing to check." Stop.
+1. Read `SPEC.md` from project root only (cwd, else nearest parent `.git`) —
+   never search wider. Missing there → "no spec, nothing to check." Stop.
 2. Parse invocation args:
    - `§V` → check invariants only (default)
    - `§I` → check interfaces
