@@ -15,6 +15,9 @@ description: |
 
 **Behavior is sacred: tests green before AND after. Every change shrinks an interface or hides a decision — deepen, don't churn.**
 
+Target: the active initiative (`.smort/INITIATIVES.md §A`) — deepen proposes
+local §I/§V/§T edits only, never touches CONSTITUTION.md.
+
 A **deep module** hides a lot behind a small interface; a **shallow** one's
 interface costs as much to use as writing the code yourself. Complexity =
 dependencies + obscurity, and it compounds. Deepen spends spare usage paying
@@ -78,7 +81,7 @@ deepened beats five churned. Budget left → pick the next shallowest, fresh pas
 ## BOUNDARIES
 
 - Never change behavior. Green before, green after. Pure structure.
-- Never write SPEC.md. Propose §I/§V/§T; spec writes.
+- Never write SPEC.md or CONSTITUTION.md. Propose local §I/§V/§T; spec writes.
 - Never deepen more than one module per pass.
 - Never run under deadline or mid-feature. This is the spare-budget pass.
 - Never add abstraction for single-use code. A deep module earns its hiding; a speculative one is just more surface.

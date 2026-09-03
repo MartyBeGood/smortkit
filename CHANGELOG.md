@@ -1,5 +1,60 @@
 # CHANGELOG
 
+## v5.0.0 — .smort/: constitution + initiatives
+
+Breaking. Not backward compatible with v4.x's single-file `SPEC.md` — folder
+rename, root file split into three, two new commands. Migration path
+provided (`/sk:migrate`), not automatic.
+
+### why
+
+One `SPEC.md` per project stops scaling once a second piece of work starts —
+either it all crams into one file's §T, or you overwrite it starting a new
+one. `.smort/` splits low-churn project truth (goal, constraints, invariants
+that proved themselves) from high-churn current work (one `SPEC.md` per
+initiative), and lets several initiatives exist at once without stepping on
+each other.
+
+### added
+
+- `.smort/CONSTITUTION.md` — project-level §G/§C/§V. §V here is
+  promotion-only: written by `/sk:grill` on a project's first pass, or by
+  `/sk:review` promoting a local invariant that held up under adversarial
+  review. Nothing else writes it.
+- `.smort/INITIATIVES.md` — §A (active initiative slug) + §N (pipe-table
+  registry: id|slug|phase|open|goal).
+- `.smort/initiatives/<date>-<slug>/SPEC.md` — same local schema as classic
+  smortkit (§G §C §I §R §V §T §B), one per initiative.
+- **`/sk:switch`** — change the active initiative. Writes one line
+  (`INITIATIVES.md §A`), nothing else moves. Confirms before switching onto
+  a closed initiative.
+- **`/sk:migrate`** — one-shot, idempotent upgrade from a classic root
+  `SPEC.md` to the `.smort/` layout. Promotes every existing §V to the
+  constitution (all were project-proven under the old single-spec model),
+  duplicates §G/§C into the migrated initiative, moves §I/§R/§T/§B verbatim,
+  shows the full diff before writing, stubs (doesn't delete) the old file.
+- **addressing** — unqualified `§<S>.<n>` resolves within the file being
+  read; cross-file references need the slug (`oauth-flow§T.3`).
+- **stacking** — an initiative's local §C is additive to constitution §C,
+  never an override; `/sk:build` and `/sk:check` read both.
+- **promotion** — `/sk:review` is the only path a local §V takes to the
+  constitution. A §B row never promotes on its own, only the invariant it
+  produced, and only by surviving review. `/sk:backprop` gets a seventh
+  step: flag a project-wide-looking §V as a promotion candidate, never
+  write the constitution itself.
+- `--constitution` flag on `/sk:grill` and `/sk:spec amend` — the rare
+  project-level edit, escape-hatched out of the initiative-scoped default.
+- `/sk:check --all` now sweeps every open initiative, not just the active
+  one, in addition to all three sections.
+
+### changed
+
+- every skill that used to read/write a fixed `SPEC.md` path now resolves
+  the active initiative via `INITIATIVES.md §A` first.
+- `/sk:build` and `/sk:check` read `CONSTITUTION.md` §C/§V in addition to
+  the active initiative's local spec.
+- README, `FORMAT.md` fully rewritten for the three-schema layout.
+
 ## v4.2.0 — smortkit fork
 
 Fork of `cavekit` under new ownership. Rebrand only where it's ownership

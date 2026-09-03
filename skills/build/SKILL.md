@@ -1,7 +1,8 @@
 ---
 name: build
 description: |
-  Plan-then-execute implementation against SPEC.md. Native single-thread
+  Plan-then-execute implementation against the active initiative's local
+  SPEC.md, honoring the project-level CONSTITUTION.md. Native single-thread
   loop, no sub-agents. Enforces a red→green→refactor TDD loop whenever the
   target project has a detectable test setup — write the named test first,
   confirm it fails, then implement to green; falls back to plain
@@ -11,7 +12,8 @@ description: |
   recurrence. Triggers when the user asks
   to build, implement, execute the spec, or tackle a specific §T task
   (`build §T.3`, `build --next`, `implement next task`, `run the build`).
-  Expects SPEC.md to exist; if not, defers to the spec skill.
+  Expects `.smort/` to exist with an active initiative; if not, defers to
+  the spec skill.
 ---
 
 # build — implement spec
@@ -20,17 +22,21 @@ Single-thread native plan→execute. You are main Claude. No swarm.
 
 ## LOAD
 
-1. Read `SPEC.md` from project root only (cwd, else nearest parent `.git`) —
-   never search wider. Missing there → tell user to invoke the spec skill
-   first. Stop.
-2. Read `FORMAT.md` once if not loaded — path `../../FORMAT.md` relative to
+1. Resolve `.smort/` at project root (cwd, else nearest parent `.git`) —
+   never search wider. Missing → tell user to invoke the spec skill first. Stop.
+2. Read `INITIATIVES.md §A` for the active slug. Read
+   `initiatives/<slug>/SPEC.md` — this is the spec being built. No active
+   initiative → tell user to run `/sk:switch` or `/sk:spec new`. Stop.
+3. Read `CONSTITUTION.md` §C and §V — project-wide constraints and promoted
+   invariants apply to every initiative (see FORMAT.md STACKING).
+4. Read `FORMAT.md` once if not loaded — path `../../FORMAT.md` relative to
    this file (plugin root, not the project).
-3. Read §R if present — external facts the build must honor, never re-derive or contradict.
-4. Parse invocation args:
+5. Read local §R if present — external facts the build must honor, never re-derive or contradict.
+6. Parse invocation args:
    - `§T.n` → that task only
    - `--next` → lowest-numbered row with status `.` or `~`
    - `--all` or empty → every `.` row in §T order
-5. **Detect test setup** — look for a test runner/framework in the target
+7. **Detect test setup** — look for a test runner/framework in the target
    project: `package.json` `test` script, `pytest.ini`/`pyproject.toml`
    `[tool.pytest]`, `go.mod` + `*_test.go` files, `Cargo.toml` + `#[test]`,
    `Gemfile` + rspec/minitest, a `Makefile` `test` target, or an existing
@@ -45,7 +51,8 @@ High blast radius (shared module, auth, data, money, public §I)? Run `/review` 
 
 Native plan mode — you delegate to it, you do not reinvent task breakdown. For chosen task(s):
 
-1. Cite every §V invariant that applies. Plan must respect all.
+1. Cite every §V invariant that applies — constitution §V (project-wide) +
+   local §V. Plan must respect all.
 2. Cite every §I interface touched. Plan must preserve shape.
 3. List files to create / edit.
 4. **Verification contract** — name the EXACT test(s) / acceptance criteria that
@@ -61,7 +68,7 @@ Show plan. Wait for user OK unless auto mode.
 
 Per task in order:
 
-1. Flip §T.n status cell `.` → `~`. Just write to SPEC.md.
+1. Flip §T.n status cell `.` → `~`. Just write to the active initiative's local SPEC.md.
 2. **TDD-eligible** (per LOAD detection) → red→green→refactor:
    a. **RED** — write the named test from the verification contract first.
       Run it. Must fail, and fail for the expected reason (assertion, not a
@@ -81,13 +88,15 @@ On test/build failure:
 1. Read failure output.
 2. Ask: is failure (a) my code bug, (b) spec wrong, or (c) unspecified edge case?
 3. If (a) → fix code, re-run. No spec change.
-4. If (b) or (c) → invoke spec skill with `bug: <cause>` first, let it update §V and §B, then resume build against updated spec.
+4. If (b) or (c) → invoke spec skill with `bug: <cause>` first, let it update
+   local §V and §B, then resume build against the updated spec.
 
 Rule: never silently fix root-cause without considering backprop. §B is the memory that stops recurrence.
 
 ## WRITE POLICY
 
-- Only flip §T status. No other SPEC.md edits from build.
+- Only flip local §T status. No other SPEC.md edits from build. Never
+  touches `CONSTITUTION.md` or `INITIATIVES.md`.
 - Other spec edits → invoke spec skill.
 - Commit after each §T completes. Message: `T<n>: <goal line>` + §V cites.
 
@@ -95,7 +104,8 @@ Rule: never silently fix root-cause without considering backprop. §B is the mem
 
 Task `x` only if:
 - Verification command (the oracle) exits 0.
-- Every §V touched has its named test from the verification contract, and it passes.
+- Every §V touched (constitution or local) has its named test from the
+  verification contract, and it passes.
 - TDD-eligible task → the named test was written and observed failing (RED)
   before the implementation landed. Red-first happened; it wasn't retrofitted.
 - No §V invariant regressed (run full test suite at end).
@@ -103,7 +113,7 @@ Task `x` only if:
 ## NON-GOALS
 
 - No sub-agents. No parallel workers. Main thread only.
-- No progress dashboards. `cat SPEC.md | grep §T` is the dashboard.
+- No progress dashboards. `cat .smort/initiatives/<slug>/SPEC.md | grep §T` is the dashboard.
 - No speculative work beyond chosen task scope.
 - Never skip RED to save time when a test framework exists. An implementation
   without a red test first is hoped-correct, not verified.

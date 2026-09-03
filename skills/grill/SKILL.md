@@ -3,16 +3,25 @@ name: grill
 description: |
   Calibrated interrogation of a fuzzy idea before it becomes a spec. Asks one
   question at a time, recommends an answer, and lands each answer in §G (goal)
-  or §C (constraints) — unknowns parked as `?` items, never guessed. The
-  cheapest place to kill a bad idea is before §T exists. Triggers when the user
-  has a vague idea, says "grill me", "stress-test this", "challenge my plan",
-  "interview me before I spec", or invokes /sk:grill. Defers the actual write to
-  the spec skill.
+  or §C (constraints) — of the active initiative by default, or the
+  project-level CONSTITUTION.md with `--constitution` — unknowns parked as
+  `?` items, never guessed. The cheapest place to kill a bad idea is before
+  §T exists. Triggers when the user has a vague idea, says "grill me",
+  "stress-test this", "challenge my plan", "interview me before I spec", or
+  invokes /sk:grill. Defers the actual write to the spec skill.
 ---
 
 # grill — sharpen idea before spec
 
 **One question at a time. Every answer lands in a § or gets parked `?`. Never guess a constraint into existence.**
+
+## CONTEXT
+
+Default target: the active initiative (`.smort/INITIATIVES.md §A`) — if none
+exists yet, this session is grilling a brand-new initiative; hand off to
+`/sk:spec new` when done. `--constitution` in args → target
+`.smort/CONSTITUTION.md` §G/§C instead — rare, project-level (e.g. the very
+first grill on a fresh project, before any initiative exists).
 
 Plan-then-execute guesses the fuzzy parts & builds the wrong thing.
 Grill drags the fuzz into §G/§C *before* a single §T row exists.
@@ -62,8 +71,10 @@ Each question carries a recommended answer so the user can grunt "yes" & move:
 ## HANDOFF
 
 When done, emit a compact block — goal line, constraint bullets, surfaced
-unknowns as `?` — and hand to the **spec** skill to write §G/§C. Grill proposes;
-spec is the sole mutator. Never write SPEC.md directly.
+unknowns as `?` — and hand to the **spec** skill to write §G/§C into the
+resolved target (active initiative, or constitution with `--constitution`).
+Grill proposes; spec is the sole mutator. Never write SPEC.md or
+CONSTITUTION.md directly.
 
 ## WHEN TO STOP
 
@@ -77,6 +88,6 @@ Unresolved blocking unknown that needs the outside world → recommend `/researc
 ## BOUNDARIES
 
 - Never make product decisions for the user. Recommend, never decide.
-- Never write SPEC.md. Hand structured answers to spec.
+- Never write SPEC.md or CONSTITUTION.md. Hand structured answers to spec.
 - Never ask in bulk. One question, one recommendation, wait.
 - Never grill a trivial change. Right-size or skip.

@@ -13,6 +13,9 @@ Plan-then-execute fixes the code & forgets.
 SDD fixes the code AND edits spec so recurrence is impossible.
 That edit is backprop.
 
+Target: the active initiative's local SPEC.md, always. Backprop never
+touches CONSTITUTION.md — see step 7.
+
 ## WHEN TO BACKPROP
 
 - Test failed at `/build` verification.
@@ -20,7 +23,7 @@ That edit is backprop.
 - Post-mortem after production incident.
 - `/check` flags VIOLATE with root cause found.
 
-## SIX STEPS
+## SEVEN STEPS
 
 ### 1. TRACE
 Read failure output / bug report.
@@ -59,6 +62,13 @@ Fix code. Run test. Must pass. Run full suite. Must not regress.
 Commit spec edit + test + code fix together.
 Commit msg: `backprop §B.<n> + §V.<N>: <one-line cause>`.
 
+### 7. FLAG FOR PROMOTION (not promote)
+New §V looks project-wide, not specific to this initiative (e.g. it would
+have caught a bug in another initiative too)? Say so in the output, name it
+a promotion candidate. Backprop never writes CONSTITUTION.md itself — that
+routing is `/sk:review`'s job (see FORMAT.md PROMOTION). Flagging here just
+means the next review pass won't miss it.
+
 ## WHAT MAKES A GOOD INVARIANT
 
 - Testable in code (grep-able or assert-able).
@@ -80,10 +90,12 @@ Still append §B entry — record that this failure mode was considered. Future 
 ## OUTPUT SHAPE
 
 Every backprop run produces:
-1. §B entry (always).
-2. §V entry (usually).
+1. Local §B entry (always).
+2. Local §V entry (usually).
 3. Test file (when §V added).
 4. Code fix.
 5. One commit.
+6. Promotion flag in the output when the new §V looks project-wide (never a
+   direct constitution write).
 
-No dashboards. No log files. SPEC.md + git is the full history.
+No dashboards. No log files. `.smort/` + git is the full history.

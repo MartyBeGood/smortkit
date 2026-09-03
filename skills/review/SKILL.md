@@ -1,14 +1,17 @@
 ---
 name: review
 description: |
-  Adversarial senior review of the spec before any code is written. Constructs a
-  skeptical reviewer whose authority comes from the codebase, §R research, and
-  live best-practice — then tries to REFUTE the spec, not rubber-stamp it. Every
-  finding cites evidence (file:line or source); unverifiable ones are flagged.
-  Survivors harden §V; the run ends in an explicit go / no-go gate. Triggers
-  before building anything high-blast-radius, when the user says "review the
-  spec", "red-team this", "is this plan sound", "senior review", or invokes
-  /sk:review.
+  Adversarial senior review of the active initiative's local spec before any
+  code is written, checked against the project-level CONSTITUTION.md.
+  Constructs a skeptical reviewer whose authority comes from the codebase,
+  §R research, and live best-practice — then tries to REFUTE the spec, not
+  rubber-stamp it. Every finding cites evidence (file:line or source);
+  unverifiable ones are flagged. Survivors harden local §V; the rare
+  project-wide invariant gets proposed as a promotion to constitution §V —
+  review is the only path a local §V takes there. The run ends in an
+  explicit go / no-go gate. Triggers before building anything
+  high-blast-radius, when the user says "review the spec", "red-team this",
+  "is this plan sound", "senior review", or invokes /sk:review.
 ---
 
 # review — refute the spec before build
@@ -31,8 +34,11 @@ typo hallucinates flaws & wastes the budget — the self-critique paradox is rea
 
 ## PHASE 0 — CAPTURE
 
-Read the spec: §G §C §I §R §V §T. Hold the whole thing. You review the *spec*,
-not your memory of the conversation.
+Resolve the active initiative (`.smort/INITIATIVES.md §A`) and read its local
+spec: §G §C §I §R §V §T. Also read `.smort/CONSTITUTION.md` §G §C §V — the
+promoted invariants and project-wide constraints the local spec must not
+contradict (see FORMAT.md STACKING). Hold the whole thing. You review the
+*spec*, not your memory of the conversation.
 
 ## PHASE 1 — CONSTRUCT THE SENIOR
 
@@ -64,7 +70,7 @@ No evidence? Down-rank to NOTE & tag `[unverified]`. Never inflate a hunch to BL
 
 ## PHASE 4 — HARDEN §V & GATE
 
-- Each HARDEN finding → a draft §V line (testable, cites the §I/behavior it guards). Hand to **spec** to write.
+- Each HARDEN finding → a draft local §V line (testable, cites the §I/behavior it guards). Hand to **spec** to write.
 - End on an explicit gate:
 
 ```
@@ -77,9 +83,36 @@ gate: NO-GO until BLOCK cleared. then /build §T after spec writes V8,V9.
 
 GO or NO-GO, never a shrug. Review is the checkpoint that stops a confident wrong build.
 
+## PHASE 5 — PROMOTE (local §V → constitution §V)
+
+Review is the *only* path a local invariant takes to the constitution (see
+FORMAT.md PROMOTION) — nothing else in smortkit promotes, and a §B row never
+promotes on its own, only the invariant it produced can.
+
+For each local §V that held up under PHASE 2 (survived refutation, no
+BLOCK/HARDEN attached to it) and is genuinely project-wide rather than
+specific to this initiative — cite why (applies beyond this initiative's
+§I, or a §B already recurred across initiatives):
+
+1. Draft it as a constitution-scoped candidate. Cite the local `§V.n` it came from.
+2. Show the diff against `CONSTITUTION.md` §V.
+3. Hand to **spec** to write, `--constitution`, only on user approval — never silent.
+
+Not every local invariant is a candidate. Most stay local; promotion is for
+the rare invariant that would hold across *any* initiative in this project,
+not just this one.
+
+```
+## promotion candidates
+V3 (local) → CONSTITUTION§V.4: every DB write must run in transaction — already
+  bit two initiatives (see B2, oauth-flow§B.1). promote?
+```
+
 ## BOUNDARIES
 
-- Never write SPEC.md. Draft §V & hand to spec.
+- Never write SPEC.md or CONSTITUTION.md. Draft §V & hand to spec.
 - Never pass a finding with no evidence as fact. Flag `[unverified]`.
 - Never review trivia. Right-size or skip.
 - Never rewrite the user's intent. You harden the spec, you do not replace its goal.
+- Never promote a §B row directly — only an invariant it produced, and only
+  after it survives PHASE 2 here.

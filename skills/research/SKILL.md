@@ -14,6 +14,9 @@ description: |
 
 **Every finding cites a source. No source → flag it `?`, never write a guess as fact.**
 
+Target: the active initiative (`.smort/INITIATIVES.md §A`) — §R is always
+local, never written to the constitution.
+
 "Process without library context gives you well-organized hallucinations."
 Build invents a plausible-but-wrong API & §B fills with avoidable bugs.
 Research is the external oracle: pull the real fact once, log it caveman, never re-derive.
@@ -47,9 +50,9 @@ is the memory; the tab you read is not.
 > R3|refresh token|rotate on use, revoke family on reuse-detect|datatracker.ietf.org/doc/html/rfc6819#section-5.2.2.3
 
 ### 4. HAND OFF
-Emit the §R rows & hand to the **spec** skill to append. If a finding changes a
-constraint or interface, note the §C/§I edit for spec too. Research proposes;
-spec writes.
+Emit the §R rows & hand to the **spec** skill to append to the active
+initiative's local §R. If a finding changes a constraint or interface, note
+the local §C/§I edit for spec too. Research proposes; spec writes.
 
 ## SOURCE DISCIPLINE
 

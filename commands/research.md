@@ -6,5 +6,6 @@ argument-hint: [topic | "best lib for X"]
 Invoke the **research** skill (`skills/research/SKILL.md`). Treat `$ARGUMENTS` as
 the topic. Scope it to concrete questions, gather from primary sources (spawn a
 sub-agent for big sweeps so raw pages never touch this context), distill each
-answer to one caveman §R row + its source, and hand the rows to spec. Flag any
-unverified finding `?` — never write a guess as fact.
+answer to one caveman §R row + its source, and hand the rows to spec — always
+into the active initiative's local §R. Flag any unverified finding `?` — never
+write a guess as fact.
