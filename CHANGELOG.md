@@ -1,5 +1,49 @@
 # CHANGELOG
 
+## v5.1.0 — shippable §T slices
+
+Behavior change, format-compatible. Existing `.smort/` trees keep parsing;
+what changes is how §T rows get written and built.
+
+### why
+
+§T rows were coming out layer-shaped — `scaffold repo`, `add User model`,
+`wire routes`, `add tests`. Nothing in that sequence ships until the last
+row lands, so `/sk:build`'s commit-per-task produced commits that could not
+go to trunk on their own. Trunk-based development wants the opposite: each
+commit a logical, deployable unit.
+
+### added
+
+- **FORMAT.md SLICING** — one §T row = one logical, shippable unit = one
+  commit that lands on trunk green and deployable. Codifies the **SLICE
+  TEST** (ships / observable / whole / revertable), vertical-over-horizontal
+  slicing, flag-gating for behavior too big to ship in one row, and
+  dependency-only ordering. Bad/good examples included.
+- **`/sk:build` slice check** — LOAD runs the SLICE TEST on every chosen
+  row. A mis-sliced row is named, re-sliced, and routed through spec
+  (`amend §T`) before any code is written.
+- **`/sk:build` commit plan** — PLAN names what makes each row shippable
+  (behavior going live, or the flag that hides the unfinished part). A plan
+  that needs two commits to reach a green trunk means the row is mis-sliced.
+- **`/sk:review` slice axis** — PHASE 2 refutes §T slicing: a row that
+  ships nothing alone is a finding, with re-sliced rows proposed.
+
+### changed
+
+- **`/sk:spec`** — NEW slices the goal into shippable units (was "break
+  goal into ordered tasks"); DISTILL emits one shippable row per gap;
+  BACKPROP puts fix + regression test in one row. New SLICING §T section
+  carries the SLICE TEST and the three re-slice moves.
+- **`/sk:build` write policy** — one row, one commit, made only when green.
+  Never mid-row, never one commit spanning rows, never a red or half-shipped
+  trunk. VERIFICATION adds "row ships" to the `x` conditions.
+- **`/sk:deepen`** — proposed §T refactor rows must each ship alone; big
+  refactors split by intermediate green states, never into layers.
+- **§T task cells** — phrased as observable behavior
+  (`POST /x accepts {name} → 201 {id}`), not stack layers (`add auth mw`).
+  Examples updated in FORMAT.md and the caveman skill.
+
 ## v5.0.0 — .smort/: constitution + initiatives
 
 Breaking. Not backward compatible with v4.x's single-file `SPEC.md` — folder

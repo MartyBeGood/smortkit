@@ -52,9 +52,11 @@ B1|2026-04-20|token `<` not `<=`|V2
 **Task row** (pipe table under §T):
 ```
 id|status|task|cites
-T3|x|add auth mw|V1,I.api
+T3|x|every /x req → auth check before handler|V1,I.api
 ```
-Status: `x` done, `~` wip, `.` todo. Escape literal `|` as `\|`.
+Status: `x` done, `~` wip, `.` todo. Escape literal `|` as `\|`. Task cell
+names behavior shipped, not a stack layer — one row = one commit (FORMAT.md
+SLICING).
 
 **Interface**:
 ```

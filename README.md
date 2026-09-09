@@ -18,7 +18,7 @@ build**, over `.smort/` — a small project-level constitution plus one
 `SPEC.md` per initiative — no sub-agents. Three commands you run every time;
 six more you reach for only when the change earns it.
 
-The spine is three properties that earn their tokens:
+The spine is four properties that earn their tokens:
 
 - **durable spec** — `.smort/` at project root survives context resets. It
   is the agent's long-term memory: lose the window, reload the spec, keep
@@ -28,6 +28,9 @@ The spine is three properties that earn their tokens:
   of spec-kit's 18.6k context. That is the whole point.
 - **backprop reflex** — every test failure becomes a `§B` entry; classes
   of bug become `§V` invariants the spec never forgets.
+- **shippable slices** — one `§T` row = one logical unit = one commit that
+  lands on trunk green and deployable. Trunk-based, vertical slices; no
+  layer rows, no "add tests" row, no half-shipped trunk.
 
 And one rule that keeps it from bloating into the frameworks it replaces:
 **right-size**. A one-line fix is just `/build`. The full chain is for
@@ -40,7 +43,7 @@ genuinely uncertain or high-blast-radius work — never for a typo.
 | cmd | job |
 |---|---|
 | `/sk:spec` | create / amend / backprop the active initiative's `SPEC.md` (or `CONSTITUTION.md` with `--constitution`). Sole mutator of both. |
-| `/sk:build` | native plan → execute against the active initiative's spec, honoring `CONSTITUTION.md`. Names which test proves each `§V`. Auto-backprops on failure. |
+| `/sk:build` | native plan → execute against the active initiative's spec, honoring `CONSTITUTION.md`. Names which test proves each `§V`. One `§T` row = one shippable commit. Auto-backprops on failure. |
 | `/sk:check` | read-only drift report. Lists §V / §I / §T violations for the active initiative + constitution; `--all` sweeps every open initiative. |
 
 **reach for these** — only when the change earns the ceremony:
@@ -91,14 +94,14 @@ See [`FORMAT.md`](./FORMAT.md). `.smort/` holds a project-level
 `INITIATIVES.md` registry (§A active slug, §N pipe table) pointing at
 `initiatives/<date>-<slug>/SPEC.md` per initiative — full local schema: §G
 goal, §C constraints, §I interfaces, §R research (optional, pipe table), §V
-invariants, §T tasks (pipe table), §B bugs (pipe table). Each verb owns
-specific sections — no verb rewrites a section it does not own, and only
+invariants, §T tasks (pipe table, one row = one shippable commit), §B bugs
+(pipe table). Each verb owns specific sections — no verb rewrites a section it does not own, and only
 `/sk:review` promotes a local §V into the constitution.
 
 ## files
 
 ```
-FORMAT.md             .smort/ schema + caveman encoding + sectioned ownership
+FORMAT.md             .smort/ schema + caveman encoding + §T slicing + sectioned ownership
 commands/             nine thin slash-command entry points → the skills (loop + reach-for)
 skills/spec           spec mutator — sole writer of SPEC.md and CONSTITUTION.md
 skills/build          plan-execute, verification contract

@@ -1,5 +1,5 @@
 {
   "name": "sk",
   "description": "Smortkit — compressed spec-driven dev. Full loop (grill → spec → research → review → build) over .smort/: one CONSTITUTION.md, many initiative SPEC.md files. Three core commands + six reach-for. No sub-agents. Caveman encoding. Bug-to-spec backprop.",
-  "version": "5.0.0"
+  "version": "5.1.0"
 }

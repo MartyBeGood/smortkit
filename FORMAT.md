@@ -97,10 +97,12 @@ V3: DB write must run in transaction
 
 ## §T TASKS
 pipe table. ids monotonic (never reused). status: `x` done / `~` wip / `.` todo.
+one row = one shippable commit (see SLICING). task cell names observable
+behavior, not a layer of the stack.
 id|status|task|cites
-T1|.|scaffold repo|-
-T2|.|impl §I.api POST /x|V2
-T3|x|add §V.1 middleware|V1,I.api
+T1|.|POST /x accepts {name} → 201 {id}|V3,I.api
+T2|.|reject expired token @ POST /x → 401|V2
+T3|x|every /x req → auth check before handler|V1,I.api
 
 ## §B BUGS
 pipe table. backprop log. each row = bug + invariant that catches recurrence.
@@ -125,6 +127,53 @@ citing an initiative, or one initiative citing another — needs the slug:
 An initiative's local §C is *additive* to constitution §C, never an override.
 `/sk:build` and `/sk:check` read both and honor the union — a local
 constraint can narrow, it can't contradict the constitution.
+
+## SLICING
+
+One §T row = one logical, shippable unit = one commit that lands on trunk.
+Trunk-based: every row, merged alone, leaves trunk green and deployable. A
+row nobody could ship on its own is mis-sliced — re-slice before build.
+
+**SLICE TEST** — a row earns its id only if all four hold:
+
+1. **ships** — merged alone, trunk stays green & deployable. No half-built
+   user-visible state.
+2. **observable** — delivers behavior someone can see (or a
+   behavior-preserving refactor). Not "layer added".
+3. **whole** — test + impl + any doc/migration for that behavior in the
+   same row. Never a separate "add tests" row.
+4. **revertable** — one `git revert` undoes it, and nothing built earlier
+   breaks.
+
+**Vertical, not horizontal.** Slice by behavior end-to-end (thinnest path
+first, then broaden), never by stack layer (model → service → route →
+tests). Scaffolding, plumbing, and shared types ship nothing alone: fold
+them into the first behavior row that needs them.
+
+**Bad** (layer slices — nothing shippable until the last row):
+
+```
+T1|.|scaffold repo|-
+T2|.|add User model|-
+T3|.|add auth middleware|V1
+T4|.|wire routes|I.api
+T5|.|add tests|-
+```
+
+**Good** (vertical slices — each row ships):
+
+```
+T1|.|POST /login valid creds → 200 {token}|V2,I.api
+T2|.|expired token → 401|V2
+T3|.|rate-limit /login 5/min|V4
+```
+
+Behavior too big to ship in one row, and partial is unsafe → gate it: rows
+land behind a flag defaulting off, final row flips the flag on. The flag
+keeps every intermediate row shippable.
+
+Sequencing is by dependency only. A row that can't ship without an earlier
+one comes after it; nothing else dictates order.
 
 ## PROMOTION
 
