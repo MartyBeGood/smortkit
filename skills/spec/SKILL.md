@@ -9,7 +9,8 @@ description: |
   bug via backprop. Common phrasings: "write the spec for...", "new
   initiative", "bug: ...", "amend §V.3", "distill spec from code", "spec
   this idea". Reads and follows FORMAT.md for the caveman encoding rules,
-  the `.smort/` layout, and the pipe-table shape of §N/§T/§B.
+  the `.smort/` layout, the pipe-table shape of §N/§T/§B, and the SLICING
+  rule that makes every §T row one shippable commit.
 ---
 
 # spec — spec mutator
@@ -72,7 +73,9 @@ Steps:
 7. §R only if **research** ran — else omit the section (right-size).
 8. Propose initial invariants → local §V (numbered V1…). These start local;
    only `/sk:review` can promote one to the constitution.
-9. Break goal into ordered tasks → local §T pipe table, all status `.`, ids T1…
+9. Slice goal into shippable units → local §T pipe table, all status `.`,
+   ids T1… One row = one commit that lands on trunk green & deployable. Run
+   the SLICE TEST below on every row before writing.
 10. Local §B section with header row only (`id|date|cause|fix`).
 11. `.smort/INITIATIVES.md` absent → create it, `§A` = new slug, `§N` header
     row + this row. Else append the row to `§N` and set `§A` to the new slug
@@ -88,7 +91,8 @@ Same bootstrap as NEW (constitution first-time, `INITIATIVES.md` row, active
 initiative). Walk repo. Produce §G (infer from README/package.json/main
 entry), §C (infer from stack), §I (enumerate public APIs/CLIs/configs), §V
 (derive from tests and assertions — starts local, promotion is `/sk:review`'s
-job), §T (one task per known TODO or missing test), §B (empty).
+job), §T (one shippable row per known gap — a TODO or missing test that ships
+alone; fold layer-only work into the behavior row that needs it), §B (empty).
 
 Caveman everywhere. Flag uncertain items with `?` in text so user can confirm.
 
@@ -105,7 +109,9 @@ Steps:
    in the active initiative's local §V.
 4. Append local §B row: `B<next>|<date>|<cause>|V<N>`.
 5. Append new invariant to local §V.
-6. If fix also changes behavior → add/update local §T rows.
+6. If fix also changes behavior → add/update local §T rows. Fix + its
+   regression test = one row, one commit; never a separate "add test for B<n>"
+   row.
 7. Show diff. Apply only on user OK.
 
 Rule: every bug gets a §B entry. Invariant optional but preferred.
@@ -136,12 +142,38 @@ Steps:
 3. Local §V entry stays put — promotion copies, it doesn't move or delete
    the local invariant.
 
+## SLICING §T — one row, one shippable commit
+
+Every §T row this skill writes (NEW, DISTILL, BACKPROP, AMEND, or a deepen
+handoff) is a trunk-based commit: merged alone, trunk stays green and
+deployable. Full rule + examples in FORMAT.md SLICING.
+
+**SLICE TEST** — write the row only if all four hold:
+
+1. **ships** — trunk green & deployable after this row alone. No half-built
+   user-visible state.
+2. **observable** — names behavior someone can see, or a behavior-preserving
+   refactor. Not a stack layer.
+3. **whole** — test + impl + doc/migration for that behavior in the same row.
+4. **revertable** — one `git revert` undoes it without breaking earlier rows.
+
+Fails the test → don't write it. Instead:
+
+- layer row (`add model`, `wire routes`, `scaffold repo`, `add tests`) → fold
+  into the first behavior row that needs it.
+- row too big to ship whole, partial unsafe → split by behavior and gate
+  behind a flag defaulting off; last row flips the flag.
+- row too small to ship alone (`rename var`) → merge into its neighbor.
+
+Order rows by dependency only. Thinnest end-to-end path first, then broaden.
+
 ## OUTPUT RULES
 
 - Caveman format per `FORMAT.md`.
 - Preserve identifiers, paths, code verbatim.
 - Numbering monotonic per file — never reuse §V.N or §B.N or §N.N within it.
-- §T row `cites` column must list §V/§I deps: `T5|.|impl auth mw|V2,I.api`.
+- §T row `cites` column must list §V/§I deps, and the task cell names the
+  behavior shipped: `T5|.|reject req w/o auth header → 401|V2,I.api`.
 - Local edits stay local. Only touch `CONSTITUTION.md` via: the one-time
   bootstrap inside NEW/DISTILL, `--constitution` on AMEND (§G/§C only), or
   PROMOTE (§V only, review-sourced).

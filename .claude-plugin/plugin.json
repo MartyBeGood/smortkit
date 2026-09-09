@@ -1,6 +1,6 @@
 {
   "name": "sk",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Smortkit — compressed spec-driven dev. Full loop (grill → spec → research → review → build) over .smort/: one CONSTITUTION.md, many initiative SPEC.md files. Three core commands + six reach-for. Caveman encoding. Bug-to-spec backprop.",
   "author": { "name": "Markus Nölle" },
   "license": "MIT",

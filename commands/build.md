@@ -9,6 +9,8 @@ target (`§T.n`, `--next`, or `--all`). Plan in native plan mode, cite both
 touched (verification contract), read local §R for external facts. If the
 project has a detectable test setup, execute red→green→refactor — write that
 test first, confirm it fails, then implement to green; otherwise fall back to
-plain edit-then-verify. Auto-invoke backprop on failure. High blast radius?
-Suggest `/sk:review` first. Build only flips local §T status; other spec
-edits route through spec.
+plain edit-then-verify. Auto-invoke backprop on failure. Run the SLICE
+TEST first — a §T row that can't ship alone gets re-sliced through spec
+before any code. One row = one commit, made only when green, trunk
+deployable after it. High blast radius? Suggest `/sk:review` first. Build
+only flips local §T status; other spec edits route through spec.

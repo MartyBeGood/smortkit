@@ -11,4 +11,5 @@ active initiative, `amend --constitution <§X.n>` → targeted edit on
 spec is the sole mutator — it also writes the handoff blocks that grill
 (§G/§C), research (§R), review (§V, plus promotions), and deepen (§I/§V/§T)
 produce. Caveman encoding per FORMAT.md; sectioned ownership; show a diff,
-write on OK.
+write on OK. §T rows are sliced per FORMAT.md SLICING — one row = one
+shippable commit, behavior-shaped, test included; never a stack layer.

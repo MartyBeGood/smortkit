@@ -6,7 +6,8 @@ description: |
   Constructs a skeptical reviewer whose authority comes from the codebase,
   §R research, and live best-practice — then tries to REFUTE the spec, not
   rubber-stamp it. Every finding cites evidence (file:line or source);
-  unverifiable ones are flagged. Survivors harden local §V; the rare
+  unverifiable ones are flagged. Audits §T slicing too — each row must be
+  one shippable commit, not a stack layer. Survivors harden local §V; the rare
   project-wide invariant gets proposed as a promotion to constitution §V —
   review is the only path a local §V takes there. The run ends in an
   explicit go / no-go gate. Triggers before building anything
@@ -58,6 +59,11 @@ Attack the spec on these axes. For each, try to find the case where it breaks:
 - **Constraint conflict** — do two §C bullets contradict? does one fight §R?
 - **Unowned edge** — the input, ordering, failure, or concurrency case no §T covers.
 - **Altitude** — §T too vague to act on, or so granular it is just typing?
+- **Slice** — does each §T row ship alone? A layer row (`add model`, `wire
+  routes`, `scaffold`, `add tests`) or one that only works once a later row
+  lands fails the FORMAT.md SLICE TEST → finding, with the re-sliced rows
+  proposed (behavior-shaped, thinnest end-to-end path first, flag-gated when
+  partial is unsafe).
 
 ## PHASE 3 — CLASSIFY
 
@@ -77,7 +83,7 @@ No evidence? Down-rank to NOTE & tag `[unverified]`. Never inflate a hunch to BL
 ## review verdict
 BLOCK: 1 — §I.api shape doesn't match caller src/client.ts:40. fix §I before build.
 HARDEN: 2 — drafted V8 (idempotent refund), V9 (tx around dual write).
-NOTE: 1 — §T4 vague, split before /build.
+NOTE: 1 — §T4 ships nothing alone ("wire routes"), re-slice: T4 POST /x → 201, T5 401 on bad token.
 gate: NO-GO until BLOCK cleared. then /build §T after spec writes V8,V9.
 ```
 

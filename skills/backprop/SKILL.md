@@ -59,7 +59,8 @@ Name test so it cites the invariant: `TestV7_RefundIdempotent`.
 Fix code. Run test. Must pass. Run full suite. Must not regress.
 
 ### 6. LOG
-Commit spec edit + test + code fix together.
+Commit spec edit + test + code fix together — one shippable slice, trunk
+green after it (FORMAT.md SLICING). Never a separate test-only commit.
 Commit msg: `backprop §B.<n> + §V.<N>: <one-line cause>`.
 
 ### 7. FLAG FOR PROMOTION (not promote)

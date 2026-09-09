@@ -9,7 +9,9 @@ description: |
   verification when no test framework is present. On test or build
   failure, auto-invokes the backprop skill before retrying — a failed
   verification always considers whether a new §V invariant would prevent
-  recurrence. Triggers when the user asks
+  recurrence. Treats one §T row as one shippable commit — trunk-based: the
+  row lands on trunk green and deployable, or it gets re-sliced through the
+  spec skill before any code is written. Triggers when the user asks
   to build, implement, execute the spec, or tackle a specific §T task
   (`build §T.3`, `build --next`, `implement next task`, `run the build`).
   Expects `.smort/` to exist with an active initiative; if not, defers to
@@ -44,6 +46,14 @@ Single-thread native plan→execute. You are main Claude. No swarm.
    runs red→green→refactor. None found → **TDD-eligible: no**, note it once
    ("no test framework detected — TDD loop skipped, verification contract
    still required") and EXECUTE falls back to edit-then-verify.
+8. **Slice check** — run the FORMAT.md SLICE TEST on each chosen row: does
+   it ship alone (trunk green & deployable), name observable behavior, carry
+   its own test, revert cleanly? A row that fails (`scaffold repo`, `add
+   User model`, `wire routes`, `add tests`) is mis-sliced: say which test it
+   fails, propose the re-sliced rows, hand to the spec skill (`amend §T`),
+   and build only after §T is rewritten. Never build a layer row as-is and
+   never leave trunk unshippable to work around it. Right-size — one obvious
+   row needs no ceremony here, just the four questions.
 
 High blast radius (shared module, auth, data, money, public §I)? Run `/review` first. Trivial & reversible? Skip planning ceremony, just do step EXECUTE.
 
@@ -61,6 +71,10 @@ Native plan mode — you delegate to it, you do not reinvent task breakdown. For
    TDD-eligible (see LOAD) → that named test must not already exist/pass; it is
    the test EXECUTE writes first, not one that happens to already cover the behavior.
 5. Name verification command (test, build, lint) — this is the external oracle. Green = done; never "looks done".
+6. **Commit plan** — one commit per §T row, message `T<n>: <task cell>` + §V
+   cites. Name what makes the row shippable: which behavior goes live, or
+   which flag (default off) hides the unfinished part. Plan needing two
+   commits to reach a green trunk → row is mis-sliced; back to slice check.
 
 Show plan. Wait for user OK unless auto mode.
 
@@ -78,8 +92,10 @@ Per task in order:
       after every refactor edit.
    **Not TDD-eligible** → edit code per plan directly, no red/green split.
 3. Run verification command.
-4. **Pass** → flip `~` → `x`. Next task.
-5. **Fail** → invoke backprop skill. Do NOT retry blindly.
+4. **Pass** → flip `~` → `x`, commit the row as one commit (see WRITE
+   POLICY). Next task.
+5. **Fail** → invoke backprop skill. Do NOT retry blindly. Nothing commits
+   while the row is red — trunk never takes a broken slice.
 
 ## FAIL → BACKPROP
 
@@ -98,7 +114,11 @@ Rule: never silently fix root-cause without considering backprop. §B is the mem
 - Only flip local §T status. No other SPEC.md edits from build. Never
   touches `CONSTITUTION.md` or `INITIATIVES.md`.
 - Other spec edits → invoke spec skill.
-- Commit after each §T completes. Message: `T<n>: <goal line>` + §V cites.
+- One §T row = one commit, made when the row is green — never mid-row,
+  never one commit spanning two rows. Message: `T<n>: <task cell>` + §V
+  cites. Unfinished behavior in a multi-row slice stays behind a flag
+  defaulting off (FORMAT.md SLICING), so every commit leaves trunk
+  deployable.
 
 ## VERIFICATION
 
@@ -109,11 +129,16 @@ Task `x` only if:
 - TDD-eligible task → the named test was written and observed failing (RED)
   before the implementation landed. Red-first happened; it wasn't retrofitted.
 - No §V invariant regressed (run full test suite at end).
+- Row ships: its commit alone leaves trunk green & deployable, any
+  unfinished behavior flag-gated off. A row that only makes sense once a
+  later row lands wasn't a slice — re-slice §T instead of marking it `x`.
 
 ## NON-GOALS
 
 - No sub-agents. No parallel workers. Main thread only.
 - No progress dashboards. `cat .smort/initiatives/<slug>/SPEC.md | grep §T` is the dashboard.
 - No speculative work beyond chosen task scope.
+- Never commit a §T row that leaves trunk red or half-shipped, and never
+  split one row across commits to dodge that — re-slice §T instead.
 - Never skip RED to save time when a test framework exists. An implementation
   without a red test first is hoped-correct, not verified.

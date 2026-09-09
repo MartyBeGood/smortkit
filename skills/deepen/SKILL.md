@@ -64,7 +64,10 @@ Moves that deepen:
 Draft the change as spec edits, not a silent rewrite:
 - New/simpler §I shape for the module.
 - §V that locks the deepened invariant so a future build can't re-shallow it.
-- §T refactor row(s), each citing the §V/§I it serves.
+- §T refactor row(s), each citing the §V/§I it serves — one row = one
+  shippable commit (FORMAT.md SLICING): behavior held, suite green, trunk
+  deployable after it alone. Refactor too big for one row → split by
+  intermediate green states, never into layers.
 Hand to **spec** to write. Show the before/after interface so the user sees the shrink.
 
 ### 5. VERIFY BEHAVIOR HELD
